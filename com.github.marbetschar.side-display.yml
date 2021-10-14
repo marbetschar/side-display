@@ -13,3 +13,12 @@ modules:
     sources:
       - type: dir
         path: .
+  - name: libevdi
+    buildsystem: simple
+    build-commands:
+      - make -C library
+      - PREFIX=/app make -C library install
+    sources:
+      - type: archive
+        url: https://github.com/DisplayLink/evdi/archive/refs/tags/v1.9.1.tar.gz
+        sha256: 21bede52331d80357ad48cce9211e8e2b1aa863508abfa423e9eb64753ccc526
