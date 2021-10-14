@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Side Display
+Comment=Use your tablet as a second display for elementary OS
+Categories=Utility;
+Exec=com.github.marbetschar.side-display
+Icon=application-default-icon
+Terminal=false
+Type=Application
+Keywords=Monitor;Display;External;Virtual;
