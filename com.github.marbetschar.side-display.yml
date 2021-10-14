@@ -1,0 +1,15 @@
+app-id: com.github.marbetschar.side-display
+runtime: io.elementary.Platform
+runtime-version: '6'
+sdk: io.elementary.Sdk
+command: com.github.marbetschar.side-display
+finish-args:
+  - '--share=ipc'
+  - '--socket=fallback-x11'
+  - '--socket=wayland'
+modules:
+  - name: side-display
+    buildsystem: meson
+    sources:
+      - type: dir
+        path: .
