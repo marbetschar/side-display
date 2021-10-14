@@ -14,6 +14,8 @@ public class SideDisplay.Application: Gtk.Application {
             title = "Side Display"
         };
 
+        Evdi.Rect? c = null;
+
         main_window.show_all ();
     }
 
