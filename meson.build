@@ -6,6 +6,7 @@ add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 executable(
     meson.project_name(),
     'src' / 'Application.vala',
+    'src' / 'DBus.vala',
     dependencies: [
         dependency('gtk+-3.0')
     ],
