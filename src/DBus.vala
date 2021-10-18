@@ -1,7 +1,31 @@
 namespace SideDisplay.DBus {
 
     [DBus (name = "org.gnome.Mutter.ScreenCast")]
-    public interface ScreenCast : Object {
+    public interface Mutter.ScreenCast : Object {
+        /**
+        CreateSession:
+        @properties: Properties
+        @session_path: Path to the new session object
+
+        * "remote-desktop-session-id" (s): The ID of a remote desktop session.
+                        Remote desktop driven screen casts
+                        are started and stopped by the remote
+                        desktop session.
+        * "disable-animations" (b): Set to "true" if the screen cast application
+                        would prefer animations to be globally
+                        disabled, while the session is running. Default
+                        is "false". Available since version 3.
+        */
+
+        [DBus (name = "CreateSession")]
+        public abstract GLib.Variant createSession (GLib.Variant properties) throws Error;
+    }
+
+    [DBus (name = "org.gnome.Mutter.ScreenCast.Session")]
+    public interface ScreenCast.Session : Object {
+
+        [DBus (name = "RecordWindow")]
+        public abstract GLib.Variant recordWindow (GLib.Variant properties) throws Error;
 
         /**
         RecordVirtual:
@@ -32,7 +56,7 @@ namespace SideDisplay.DBus {
     }
 
     [DBus (name = "org.gnome.Mutter.ScreenCast.Stream")]
-    public interface Stream : Object {
+    public interface ScreenCast.Stream : Object {
 
         [DBus (name = "PipeWireStreamAdded")]
         public signal void pipewire_stream_added (uint node_id);
