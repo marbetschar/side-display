@@ -8,14 +8,85 @@ finish-args:
   - '--socket=fallback-x11'
   - '--socket=wayland'
 modules:
-  - name: mutter
+  - name: gsettings-desktop-schemas
     buildsystem: meson
-    build-options:
-      remote_desktop: true
     sources:
       - type: archive
-        url: https://gitlab.gnome.org/GNOME/mutter/-/archive/41.0/mutter-41.0.tar.gz
-        sha256: 5ee22e110d436f3be1768cfaa699b5cb948ec3f00d7eb1e2961d2a6c7c0708ff
+        url: https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/archive/41.0/gsettings-desktop-schemas-41.0.tar.gz
+        sha256: bb7ec2687bcfbe5219e6df7f1c9860027ce02c37cd897c3b0969ba9752c288d6
+
+  - name: glib-2.0
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/glib/-/archive/2.68.4/glib-2.68.4.tar.gz
+        sha256: 7277475bebbecd3369b793c7b628d78290e016f7d6bcb463173c17e90f3bb96d
+
+  - name: geocode-glib-1.0
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/geocode-glib/-/archive/3.26.2/geocode-glib-3.26.2.tar.gz
+        sha256: 589ed8cf890fb47619ad1062b7117d16104554078b837344496d603d0896ec20
+
+  - name: gweather-3.0
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/libgweather/-/archive/40.0/libgweather-40.0.tar.gz
+        sha256: 8b31f9257ec04fd252442543e272e6302d36a6c7e3f9dd97de474c1af502abdf
+
+  - name: libcanberra-gtk3
+    buildsystem: simple
+    build-commands:
+      - ./configure --prefix /app
+      - make
+      - make install
+    sources:
+      - type: archive
+        url: http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
+        sha256: c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72
+
+  - name: pam
+    buildsystem: simple
+    build-commands:
+      - ./autogen.sh
+      - ./configure --prefix /app --disable-dependency-tracking --enable-Werror --build=i686-pc-linux-gnu --target=i686-pc-linux-gnu
+      - make
+      - make check
+      - make install
+    sources:
+      - type: archive
+        url: https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.5.2.tar.gz
+        sha256: 83661718a974ffd7caf97b87924811629a9b8169f704925fd0aad70a6e87fb90
+
+  - name: polkit-gobject-1
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.freedesktop.org/polkit/polkit/-/archive/0.120/polkit-0.120.tar.gz
+        sha256: 82bc2cde0b171b8c27e535bf78cf43e87b1872bf43708fd21fb081fd6265c026
+
+  - name: gnome-desktop-3.0
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/gnome-desktop/-/archive/41.0/gnome-desktop-41.0.tar.gz
+        sha256: 703dac9aad98c9f1fc2ea80324d78910a4771636831b3630f80521881d99a366
+
+  - name: gnome-settings-daemon
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/archive/41.0/gnome-settings-daemon-41.0.tar.gz
+        sha256: c94ea2385de3494f2d6dd4344ffc2759a8b684a7cc8ffa16b2fd2f84f0bb9c96
+
+  - name: mutter
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/mutter/-/archive/40.5/mutter-40.5.tar.gz
+        sha256: 0d7a4f08e5fe020c0078cccb7ac6fb2bcdaa65e4da8db73505a175f4e7208384
 
   - name: side-display
     buildsystem: meson
