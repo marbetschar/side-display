@@ -8,8 +8,18 @@ finish-args:
   - '--socket=fallback-x11'
   - '--socket=wayland'
 modules:
+  - name: mutter
+    buildsystem: meson
+    build-options:
+      remote_desktop: true
+    sources:
+      - type: archive
+        url: https://gitlab.gnome.org/GNOME/mutter/-/archive/41.0/mutter-41.0.tar.gz
+        sha256: 5ee22e110d436f3be1768cfaa699b5cb948ec3f00d7eb1e2961d2a6c7c0708ff
+
   - name: side-display
     buildsystem: meson
     sources:
       - type: dir
         path: .
+    # libmutter depends: cogl, cogl-pango, clutter
