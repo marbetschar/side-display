@@ -22,84 +22,6 @@ modules:
         url: https://gitlab.gnome.org/GNOME/glib/-/archive/2.68.4/glib-2.68.4.tar.gz
         sha256: 7277475bebbecd3369b793c7b628d78290e016f7d6bcb463173c17e90f3bb96d
 
-  - name: geocode-glib-1.0
-    buildsystem: meson
-    sources:
-      - type: archive
-        url: https://gitlab.gnome.org/GNOME/geocode-glib/-/archive/3.26.2/geocode-glib-3.26.2.tar.gz
-        sha256: 589ed8cf890fb47619ad1062b7117d16104554078b837344496d603d0896ec20
-
-  - name: gweather-3.0
-    buildsystem: meson
-    sources:
-      - type: archive
-        url: https://gitlab.gnome.org/GNOME/libgweather/-/archive/40.0/libgweather-40.0.tar.gz
-        sha256: 8b31f9257ec04fd252442543e272e6302d36a6c7e3f9dd97de474c1af502abdf
-
-  - name: libcanberra
-    cleanup:
-      - "*.la"
-      - "/bin"
-      - "/etc"
-      - "/include"
-      - "/libexec"
-      - "/share/gtk-doc"
-      - "/share/man"
-    "config-opts":
-      - "--disable-static"
-      - "--disable-gtk-doc"
-      - "--disable-oss"
-      - "--enable-pulse"
-      - "--disable-udev"
-      - "--disable-gtk"
-      - "--enable-gtk3"
-      - "--disable-lynx"
-    "sources":
-        - "type": "archive"
-          "url": "http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz"
-          "sha256": "c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72"
-          "git-init" : true
-        - "type": "patch"
-          "path": "flatpak-build/0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch"
-          "use-git-am": true
-
-  - name: intltool
-    sources:
-      - type: archive
-        url: https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
-        md5: 12e517cac2b57a0121cda351570f1e63
-
-  - name: polkit
-    buildsystem: autotools
-    config-opts:
-      - --disable-polkitd
-      - --disable-man-pages
-      - --disable-introspection
-      - --disable-examples
-      - --disable-gtk-doc
-      - --disable-libelogind
-      - --disable-libsystemd-login
-      - --with-systemdsystemunitdir=no
-      - --with-authdb=dummy
-      - --with-authfw=none
-    rm-configure: true
-    cleanup:
-      - /bin/*
-      - /etc/pam.d
-      - /etc/dbus-1
-      - /share/dbus-1/system-services/*
-      - /share/polkit-1
-      - /lib/polkit-1
-    sources:
-      - type: archive
-        url: https://www.freedesktop.org/software/polkit/releases/polkit-0.116.tar.gz
-        sha256: 88170c9e711e8db305a12fdb8234fac5706c61969b94e084d0f117d8ec5d34b1
-      - type: patch
-        path: flatpak-build/polkit-build-Add-option-to-build-without-polkitd.patch
-      - type: file
-        path: flatpak-build/polkit-autogen
-        dest-filename: autogen.sh
-
   - name: gnome-desktop-3.0
     buildsystem: meson
     sources:
@@ -107,96 +29,32 @@ modules:
         url: https://gitlab.gnome.org/GNOME/gnome-desktop/-/archive/41.0/gnome-desktop-41.0.tar.gz
         sha256: 703dac9aad98c9f1fc2ea80324d78910a4771636831b3630f80521881d99a366
 
-  - name: gudev
-    config-opts:
-      - '--disable-umockdev'
+  - name: libcanberra
     cleanup:
-      - '/include'
+      - '*.la'
+      - '/bin'
       - '/etc'
+      - '/include'
       - '/libexec'
-      - '/sbin'
-      - '/lib/pkgconfig'
-      - '/lib/systemd'
-      - '/man'
-      - '/share/aclocal'
-      - '/share/doc'
       - '/share/gtk-doc'
       - '/share/man'
-      - /share/pkgconfig'
-      - '*.la'
-      - '*.a'
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/libgudev/233/libgudev-233.tar.xz
-        sha256: 587c4970eb23f4e2deee2cb1fb7838c94a78c578f41ce12cac0a3f4a80dabb03
-
-  - name: libusb
     config-opts:
       - '--disable-static'
-    cleanup:
-      - '/lib/*.la'
-      - '/lib/pkgconfig'
-      - '/include'
+      - '--disable-gtk-doc'
+      - '--disable-oss'
+      - '--enable-pulse'
+      - '--disable-udev'
+      - '--disable-gtk'
+      - '--enable-gtk3'
+      - '--disable-lynx'
     sources:
       - type: archive
-        url: https://github.com/libusb/libusb/archive/v1.0.24.tar.gz
-        sha256: b7724c272dfc5713dce88ff717efd60f021ca5b7c8e30f08ebb2c42d2eea08ae
-    post-install:
-      - 'install -Dm644 COPYING /app/share/licenses/libusb/COPYING'
-
-  - name: upower
-    buildsystem: autotools
-    sources:
-      - type: archive
-        url: https://upower.freedesktop.org/releases/upower-0.99.11.tar.xz
-        sha256: 64b5ffbfccd5bdb15d925777979a4dbee1a957f9eaeb158dc76175267eddbdef
-
-  - name: libevdev
-    buildsystem: meson
-    config-opts:
-      - '-Dtests=disabled'
-      - '-Ddocumentation=disabled'
-    sources:
-      - type: git
-        url: https://gitlab.freedesktop.org/libevdev/libevdev.git
-        tag: libevdev-1.11.0
-        commit: 8855f1ac59a69d5bdff51e3f8980697f0127c270
-
-  - name: libwacom
-    buildsystem: simple
-    build-options:
-      build-args:
-        - '--share=network'
-    build-commands:
-      - 'pip3 install --prefix=/app libevdev pyudev pytest'
-      - 'meson build --prefix=/app'
-      - 'ninja -C build install'
-    sources:
-      - type: archive
-        url: https://github.com/linuxwacom/libwacom/archive/refs/tags/libwacom-1.12.tar.gz
-        sha256: 8c7daaac84c1842dee5be71e18c09d0ba1a4f4f511d815d7a9827d66fccd1389
-
-  # - name: libnm
-  #   buildsystem: meson
-  #   sources:
-  #     - type: archive
-  #       url: https://github.com/NetworkManager/NetworkManager/archive/refs/tags/1.32.12.tar.gz
-  #       sha256: 77a2717c313004baef858a01bfb764cff12cb5984055adf3a15bf8ac5aa337bb
-
-  # - name: gnome-settings-daemon
-  #   buildsystem: meson
-  #   config-opts:
-  #     - '-Dsystemd=false'
-  #     - '-Dcups=false'
-  #     - '-Dsmartcard=false'
-  #     - '-Dusb-protection=false'
-  #     - '-Dudev_dir=/app/lib/udev'
-  #     - '-Dwwan=false'
-  #   sources:
-  #     - type: git
-  #       url: https://gitlab.gnome.org/GNOME/gnome-settings-daemon.git
-  #       tag: 40.0.1
-  #       commit: f33abac1de0c8cecd8ededa75200648c6470e406
+        url: http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
+        sha256: c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72
+        git-init : true
+      - type: patch
+        path: flatpak-build/0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
+        use-git-am: true
 
   - name: mutter
     buildsystem: simple
