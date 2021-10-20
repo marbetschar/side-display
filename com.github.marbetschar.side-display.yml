@@ -47,25 +47,42 @@ modules:
         url: http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
         sha256: c2b671e67e0c288a69fc33dc1b6f1b534d07882c2aceed37004bf48c601afa72
 
-  - name: pam
-    buildsystem: simple
-    build-commands:
-      - ./autogen.sh
-      - ./configure --prefix /app --disable-dependency-tracking --enable-Werror --build=i686-pc-linux-gnu --target=i686-pc-linux-gnu
-      - make
-      - make check
-      - make install
+  - name: intltool
     sources:
       - type: archive
-        url: https://github.com/linux-pam/linux-pam/archive/refs/tags/v1.5.2.tar.gz
-        sha256: 83661718a974ffd7caf97b87924811629a9b8169f704925fd0aad70a6e87fb90
+        url: https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+        md5: 12e517cac2b57a0121cda351570f1e63
 
-  - name: polkit-gobject-1
-    buildsystem: meson
+  - name: polkit
+    buildsystem: autotools
+    config-opts:
+      - --disable-polkitd
+      - --disable-man-pages
+      - --disable-introspection
+      - --disable-examples
+      - --disable-gtk-doc
+      - --disable-libelogind
+      - --disable-libsystemd-login
+      - --with-systemdsystemunitdir=no
+      - --with-authdb=dummy
+      - --with-authfw=none
+    rm-configure: true
+    cleanup:
+      - /bin/*
+      - /etc/pam.d
+      - /etc/dbus-1
+      - /share/dbus-1/system-services/*
+      - /share/polkit-1
+      - /lib/polkit-1
     sources:
       - type: archive
-        url: https://gitlab.freedesktop.org/polkit/polkit/-/archive/0.120/polkit-0.120.tar.gz
-        sha256: 82bc2cde0b171b8c27e535bf78cf43e87b1872bf43708fd21fb081fd6265c026
+        url: https://www.freedesktop.org/software/polkit/releases/polkit-0.116.tar.gz
+        sha256: 88170c9e711e8db305a12fdb8234fac5706c61969b94e084d0f117d8ec5d34b1
+      - type: patch
+        path: flatpak-build/polkit-build-Add-option-to-build-without-polkitd.patch
+      - type: file
+        path: flatpak-build/polkit-autogen
+        dest-filename: autogen.sh
 
   - name: gnome-desktop-3.0
     buildsystem: meson
@@ -93,4 +110,3 @@ modules:
     sources:
       - type: dir
         path: .
-    # libmutter depends: cogl, cogl-pango, clutter
