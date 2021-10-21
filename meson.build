@@ -9,17 +9,14 @@ mutter_dep = [
     dependency('mutter-cogl-8'), dependency('mutter-cogl-pango-8'),
     dependency('mutter-clutter-8')
 ]
-vala_flags = ['--define', 'HAS_MUTTER338', '--define', 'HAS_MUTTER40']
-add_project_arguments(['-DCLUTTER_ENABLE_COMPOSITOR_API', '-DCLUTTER_ENABLE_EXPERIMENTAL_API',
-    '-DCOGL_ENABLE_EXPERIMENTAL_API', '-DCOGL_ENABLE_EXPERIMENTAL_2_0_API'], language: 'c')
-
 mutter_typelib_dir = libmutter_dep.get_pkgconfig_variable('typelibdir')
 
 executable(
     meson.project_name(),
     'src' / 'Application.vala',
     dependencies: [
-        dependency('gtk+-3.0')
+        dependency('gtk+-3.0'),
+        mutter_dep
     ],
     install: true
 )
