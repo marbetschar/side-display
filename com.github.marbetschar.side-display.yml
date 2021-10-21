@@ -71,6 +71,59 @@ modules:
         url: https://gitlab.gnome.org/GNOME/mutter/-/archive/40.5/mutter-40.5.tar.gz
         sha256: 0d7a4f08e5fe020c0078cccb7ac6fb2bcdaa65e4da8db73505a175f4e7208384
 
+  - name: vapigen
+    buildsystem: simple
+    build-commands:
+      - >-
+        vapigen /app/lib/mutter-8/Cogl-8.gir --library=mutter-cogl-8
+        --directory=/app/share/vala/vapi
+        --vapidir=/app/share/vala/vapi
+        --girdir=/app/lib/mutter-8
+        --pkg=gobject-2.0
+        --pkg=cairo
+        --pkg=graphene-gobject-1.0
+      - >-
+        vapigen /app/lib/mutter-8/CoglPango-8.gir --library=mutter-cogl-pango-8
+        --directory=/app/share/vala/vapi
+        --vapidir=/app/share/vala/vapi
+        --metadatadir=.
+        --girdir=/app/lib/mutter-8
+        --pkg=mutter-cogl-8
+        --pkg=pangocairo
+      - >-
+        vapigen /app/lib/mutter-8/Clutter-8.gir --library=mutter-clutter-8
+        --directory=/app/share/vala/vapi
+        --vapidir=/app/share/vala/vapi
+        --metadatadir=.
+        --girdir=/app/lib/mutter-8
+        --pkg=graphene-gobject-1.0
+        --pkg=mutter-cogl-8
+        --pkg=mutter-cogl-pango-8
+        --pkg=atk
+        --pkg=gio-2.0
+        --pkg=json-glib-1.0
+        --pkg=pangocairo
+      - >-
+        vapigen /app/lib/mutter-8/Meta-8.gir --library=libmutter-8
+        --directory=/app/share/vala/vapi
+        --vapidir=/app/share/vala/vapi
+        --metadatadir=.
+        --girdir=/app/lib/mutter-8
+        --pkg=graphene-gobject-1.0
+        --pkg=mutter-cogl-8
+        --pkg=mutter-cogl-pango-8
+        --pkg=mutter-clutter-8
+        --pkg=atk
+        --pkg=gio-2.0
+        --pkg=json-glib-1.0
+        --pkg=pangocairo
+        --pkg=gtk+-3.0
+        --pkg=x11
+        --pkg=xfixes-4.0
+    sources:
+      - type: dir
+        path: vapi
+
   - name: side-display
     buildsystem: meson
     sources:
