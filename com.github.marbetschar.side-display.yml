@@ -28,8 +28,8 @@ modules:
     buildsystem: meson
     sources:
       - type: archive
-        url: https://gitlab.gnome.org/GNOME/gnome-desktop/-/archive/41.0/gnome-desktop-41.0.tar.gz
-        sha256: 703dac9aad98c9f1fc2ea80324d78910a4771636831b3630f80521881d99a366
+        url: https://gitlab.gnome.org/GNOME/gnome-desktop/-/archive/40.3/gnome-desktop-40.3.tar.gz
+        sha256: d1972bf71e66ff93258bea2343ecda0c64dac096e99f2d3d9657703382cb2166
 
   - name: libcanberra
     cleanup:
