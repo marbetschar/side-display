@@ -10,10 +10,12 @@ finish-args:
 modules:
   - name: gsettings-desktop-schemas
     buildsystem: meson
+    build-options:
+      prefix: /app
     sources:
       - type: archive
-        url: https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/archive/41.0/gsettings-desktop-schemas-41.0.tar.gz
-        sha256: bb7ec2687bcfbe5219e6df7f1c9860027ce02c37cd897c3b0969ba9752c288d6
+        url: https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/archive/40.0/gsettings-desktop-schemas-40.0.tar.gz
+        sha256: 7b57e54220110f00ee768536138f80e155e44b0f90d912610802c72a25a59510
 
   - name: glib-2.0
     buildsystem: meson
