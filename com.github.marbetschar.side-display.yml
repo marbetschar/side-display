@@ -131,6 +131,8 @@ modules:
       - type: archive
         url: https://gitlab.gnome.org/GNOME/mutter/-/archive/40.5/mutter-40.5.tar.gz
         sha256: 0d7a4f08e5fe020c0078cccb7ac6fb2bcdaa65e4da8db73505a175f4e7208384
+      - type: patch
+        path: patch/mutter_meta-compositor-native_no-wayland.patch
 
   # Use flatpak-builder build --user --install ...  to generate *.vapi files in:
   # ~/.local/share/flatpak/app/.../current/active/files/share/vala/vapi/

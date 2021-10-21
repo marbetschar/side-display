@@ -1,0 +1,38 @@
+diff --git a/src/compositor/meta-compositor-native.c b/src/compositor/meta-compositor-native.c
+index 00f66b70d..4970a0d8f 100644
+--- a/src/compositor/meta-compositor-native.c
++++ b/src/compositor/meta-compositor-native.c
+@@ -70,7 +70,9 @@ maybe_assign_primary_plane (MetaCompositor *compositor)
+   CoglFramebuffer *framebuffer;
+   CoglOnscreen *onscreen;
+   MetaSurfaceActor *surface_actor;
++#ifdef HAVE_WAYLAND
+   MetaSurfaceActorWayland *surface_actor_wayland;
++#endif
+   g_autoptr (CoglScanout) scanout = NULL;
+ 
+   if (meta_compositor_is_unredirect_inhibited (compositor))
+@@ -101,18 +103,23 @@ maybe_assign_primary_plane (MetaCompositor *compositor)
+   if (!COGL_IS_ONSCREEN (framebuffer))
+     return;
+ 
++#ifdef HAVE_WAYLAND
+   surface_actor = meta_window_actor_get_surface (window_actor);
++
+   if (!META_IS_SURFACE_ACTOR_WAYLAND (surface_actor))
+     return;
+ 
+   surface_actor_wayland = META_SURFACE_ACTOR_WAYLAND (surface_actor);
+   onscreen = COGL_ONSCREEN (framebuffer);
++
+   scanout = meta_surface_actor_wayland_try_acquire_scanout (surface_actor_wayland,
+                                                             onscreen);
++
+   if (!scanout)
+     return;
+ 
+   clutter_stage_view_assign_next_scanout (CLUTTER_STAGE_VIEW (view), scanout);
++#endif
+ }
+ 
+ static void
