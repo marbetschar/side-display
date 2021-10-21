@@ -56,15 +56,76 @@ modules:
         path: patch/0001-gtk-Don-t-assume-all-GdkDisplays-are-GdkX11Displays-.patch
         use-git-am: true
 
+  - name: libinput
+    buildsystem: meson
+    build-options:
+      prefix: /app
+      append-pkg-config-path: /app/lib/pkgconfig
+    config-opts:
+      - '-Dlibwacom=false'
+      - '-Ddebug-gui=false'
+      - '-Dtests=false'
+      - '-Ddocumentation=false'
+    sources:
+      - type: archive
+        url: https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz
+        sha256: 3d3a2f12b4a65cd82684121ae4b33cdc3ad541c761a55e8eb73a8e5e443cccbb
+    modules:
+      - name: mtdev
+        sources:
+          - type: archive
+            url: http://bitmath.org/code/mtdev/mtdev-1.1.6.tar.gz
+            sha256: 1325f389a2f25cd5f5a8ea4d29aad24aa7c3ec30401d679400dd79eb9c0a8dbb
+      - name: libevdev
+        buildsystem: meson
+        config-opts:
+          - '-Dtests=disabled'
+          - '-Ddocumentation=disabled'
+        sources:
+          - type: archive
+            url: https://www.freedesktop.org/software/libevdev/libevdev-1.11.0.tar.xz
+            sha256: 63f4ea1489858a109080e0b40bd43e4e0903a1e12ea888d581db8c495747c2d0
+  - name: gudev
+    config-opts:
+      - '--disable-umockdev'
+    cleanup:
+      - '/include'
+      - '/etc'
+      - '/libexec'
+      - '/sbin'
+      - '/lib/pkgconfig'
+      - '/lib/systemd'
+      - '/man'
+      - '/share/aclocal'
+      - '/share/doc'
+      - '/share/gtk-doc'
+      - '/share/man'
+      - '/share/pkgconfig'
+      - '*.la'
+      - '*.a'
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libgudev/233/libgudev-233.tar.xz
+        sha256: 587c4970eb23f4e2deee2cb1fb7838c94a78c578f41ce12cac0a3f4a80dabb03
+
+  - name: cvt
+    buildsystem: simple
+    build-commands:
+      - install -D cvt /app/bin/cvt
+    sources:
+      - type: file
+        path: /usr/bin/cvt
+
   - name: mutter
     buildsystem: simple
     build-options:
       build-args:
         - '--share=network'
     build-commands:
+      - sed -i -E "/^\s*udev_dep/d" meson.build
       - sed -i "/gnome_settings_daemon_dep/d" meson.build
       - sed -i "/gnome_settings_daemon_dep/d" src/meson.build
-      - meson build --prefix=/app -Dstartup_notification=false -Dnative_backend=false -Dtests=false -Dwayland=false -Dlibwacom=false -Dudev=false -Dremote_desktop=true
+      - meson build --prefix=/app -Dstartup_notification=false -Dtests=false -Dwayland=false -Dlibwacom=false -Dudev_dir=/app/lib/udev -Dremote_desktop=true
       - ninja -C build install
     sources:
       - type: archive
